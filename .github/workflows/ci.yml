@@ -1,4 +1,4 @@
-name: CI
+﻿name: CI
 
 on:
   push:
@@ -21,5 +21,15 @@ jobs:
       - name: Show project files
         run: ls -la
 
-      - name: Run basic test
-        run: echo "CI test passed!"
+      - name: Build Docker image
+        run: docker build -t ecommerce-api:ci .
+
+      - name: Run Docker container
+        run: docker run -d --name ecommerce-api -p 5000:5000 ecommerce-api:ci
+
+      - name: Test API health
+        run: curl --fail http://localhost:5000/health
+
+      - name: Stop Docker container
+        if: always()
+        run: docker stop ecommerce-api
