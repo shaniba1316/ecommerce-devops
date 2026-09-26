@@ -2,9 +2,16 @@ from flask import Flask
 
 app = Flask(__name__)
 
+
 @app.route("/")
 def home():
     return "E-Commerce API is running"
+
+
+@app.route("/health")
+def health():
+    return "API is healthy"
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
